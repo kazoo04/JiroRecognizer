@@ -10,17 +10,11 @@
 
 int main(int argc, char* argv[])
 {
-    //std::cout << CV_VERSION << std::endl; 
-
     cv::Mat img = cv::imread(argv[1]);
     if (img.empty()) {
         exit(EXIT_FAILURE);
     }
 
-    double r = 32.0f;		 //radius of feature point
-    double interval = 30;	 //feature interval
-
-    //cv::DenseFeatureDetector detector(r, 1, 0.1f, interval);
     cv::DenseFeatureDetector detector(
         8.0f,	 //initFeatureScale: 初期の特徴のサイズ（半径）
         4,			//featureScaleLevels: 何段階サイズ変更してしてサンプリングするか(>=1)
