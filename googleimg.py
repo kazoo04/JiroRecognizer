@@ -27,30 +27,29 @@ num_of_pages = 8
 
 for start in range(100):
 
-	connection = urllib2.urlopen('http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=%s&rsz=%d&start=%d' % (q, num_of_pages, start * num_of_pages))
+  connection = urllib2.urlopen('http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=%s&rsz=%d&start=%d' % (q, num_of_pages, start * num_of_pages))
 
-	data = json.load(connection)
-	connection.close()
-	 
-	results = data['responseData']['results']
+  data = json.load(connection)
+  connection.close()
+   
+  results = data['responseData']['results']
 
-	print data
+  print data
 
-	for result in results:
-		url = result['url']
+  for result in results:
+    url = result['url']
 
-		m = re.match(r'.+\.(jpg|png)$', url, re.IGNORECASE)
+    m = re.match(r'.+\.(jpg|png)$', url, re.IGNORECASE)
 
-		print
-		print url
+    print
+    print url
 
-		if m:
-			filename = hashlib.sha1(url).hexdigest() + '.' + m.group(1).lower()
-			print filename
+    if m:
+      filename = hashlib.sha1(url).hexdigest() + '.' + m.group(1).lower()
+      print filename
 
-			try:
-				urllib.urlretrieve(url, dist_dir + '/' + filename)
-			except IOError:
-				next
+      try:
+        urllib.urlretrieve(url, dist_dir + '/' + filename)
+      except IOError:
+        next
 
-		 
