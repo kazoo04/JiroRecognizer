@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -16,18 +17,18 @@ int main(int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
 
-    double r = 32.0f;     //radius of feature point
-    double interval = 30;   //feature interval
+    double r = 32.0f;		 //radius of feature point
+    double interval = 30;	 //feature interval
 
     //cv::DenseFeatureDetector detector(r, 1, 0.1f, interval);
     cv::DenseFeatureDetector detector(
-            8.0f,   //initFeatureScale: 初期の特徴のサイズ（半径）
-            4,      //featureScaleLevels: 何段階サイズ変更してしてサンプリングするか(>=1)
-            1.414f, //featureScaleMul:  ScaleLevelごとにどれくらい拡大縮小するか(!=0)
-            4,      //initXyStep: 特徴点をどれくらいの量ずらしながらサンプリングするか
-            0,      //initImgBound: 画像の端からどれくらい離すか(>=0)
-            false,  //varyXyStepWithScale: XyStepにもScaleMul を掛けるか
-            false   //varyImgBoundWithScale: BoundにもScaleMul を掛けるか
+        8.0f,	 //initFeatureScale: 初期の特徴のサイズ（半径）
+        4,			//featureScaleLevels: 何段階サイズ変更してしてサンプリングするか(>=1)
+        1.414f, //featureScaleMul:	ScaleLevelごとにどれくらい拡大縮小するか(!=0)
+        4,			//initXyStep: 特徴点をどれくらいの量ずらしながらサンプリングするか
+        0,			//initImgBound: 画像の端からどれくらい離すか(>=0)
+        false,	//varyXyStepWithScale: XyStepにもScaleMul を掛けるか
+        false	 //varyImgBoundWithScale: BoundにもScaleMul を掛けるか
     );
 
     std::vector<cv::KeyPoint> keypoints;
@@ -37,7 +38,12 @@ int main(int argc, char* argv[])
     cv::Mat descriptors;
     extractor.compute(img, keypoints, descriptors);
 
-    std::cout << cv::format(descriptors, "csv") << std::endl;
+    if(argc > 3) {
+        std::ofstream stream(argv[2]);
+        stream << cv::format(descriptors, "csv");
+    } else {
+        std::cout << cv::format(descriptors, "csv") << std::endl;
+    }
 
     /*
     detector.detect(img, keypoints);
