@@ -8,18 +8,25 @@
 
 #pragma comment(lib,"opencv_nonfree242.lib")
 
+#define IMAGE_SIZE 280
+
 int main(int argc, char* argv[])
 {
-    cv::Mat img = cv::imread(argv[1]);
-    if (img.empty()) {
+    cv::Mat src = cv::imread(argv[1]);
+    if (src.empty()) {
         exit(EXIT_FAILURE);
     }
 
+    double scale = (double)IMAGE_SIZE / (src.rows < src.cols ? src.cols : src.rows);
+
+    cv::Mat img(src.rows * scale, src.cols * scale, src.type());
+    cv::resize(src, img, cv::Size(), scale, scale);
+            
     cv::DenseFeatureDetector detector(
         8.0f,	 //initFeatureScale: 初期の特徴のサイズ（半径）
-        4,			//featureScaleLevels: 何段階サイズ変更してしてサンプリングするか(>=1)
-        1.414f, //featureScaleMul:	ScaleLevelごとにどれくらい拡大縮小するか(!=0)
-        4,			//initXyStep: 特徴点をどれくらいの量ずらしながらサンプリングするか
+        2,//4,			//featureScaleLevels: 何段階サイズ変更してしてサンプリングするか(>=1)
+        2, //1.414f, //featureScaleMul:	ScaleLevelごとにどれくらい拡大縮小するか(!=0)
+        8,			//initXyStep: 特徴点をどれくらいの量ずらしながらサンプリングするか
         0,			//initImgBound: 画像の端からどれくらい離すか(>=0)
         false,	//varyXyStepWithScale: XyStepにもScaleMul を掛けるか
         false	 //varyImgBoundWithScale: BoundにもScaleMul を掛けるか
