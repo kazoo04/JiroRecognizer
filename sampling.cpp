@@ -24,9 +24,9 @@ int main(int argc, char* argv[])
             
     cv::DenseFeatureDetector detector(
         8.0f,	 //initFeatureScale: 初期の特徴のサイズ（半径）
-        2,//4,			//featureScaleLevels: 何段階サイズ変更してしてサンプリングするか(>=1)
-        2, //1.414f, //featureScaleMul:	ScaleLevelごとにどれくらい拡大縮小するか(!=0)
-        8,			//initXyStep: 特徴点をどれくらいの量ずらしながらサンプリングするか
+        3,			//featureScaleLevels: 何段階サイズ変更してしてサンプリングするか(>=1)
+        1.414f, //featureScaleMul:	ScaleLevelごとにどれくらい拡大縮小するか(!=0)
+        4,			//initXyStep: 特徴点をどれくらいの量ずらしながらサンプリングするか
         0,			//initImgBound: 画像の端からどれくらい離すか(>=0)
         false,	//varyXyStepWithScale: XyStepにもScaleMul を掛けるか
         false	 //varyImgBoundWithScale: BoundにもScaleMul を掛けるか
